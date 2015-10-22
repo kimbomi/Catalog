@@ -16,13 +16,8 @@ class ProductCell: UITableViewCell {
     
     weak var delegate : ProductCellDelegate!
     
-//    @IBAction func addButtonClicked(sender: AnyObject) {
-//        delegate.addCart(productCode)
-//    }
-    
-    
     @IBAction func addButtonClicked(sender: AnyObject) {
-        delegate.addCart(productCode)
+        delegate.addCart(productName.text!)
     }
     
     var productCode : String!

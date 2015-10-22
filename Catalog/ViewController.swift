@@ -12,31 +12,62 @@ class ViewController: UIViewController,
     UITableViewDataSource, UITableViewDelegate,
     ProductCellDelegate {
     
+    @IBOutlet weak var tableView: UITableView!
+    var section = 2
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Catalog"
+        } else {
+            return "Cart"
+        }
+    }
+    
     func addCart(productCode: String) {
+        cartList.insert(productCode, atIndex: 0)
+        tableView.reloadData()
     }
     
     var productList : [Product]!
+    var cartList = [String]()
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return section
+    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return productList.count
+        if section == 0 {
+            return productList.count
+        } else  {
+            return cartList.count
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : ProductCell = tableView.dequeueReusableCellWithIdentifier("PRODUCT_CELL", forIndexPath: indexPath) as! ProductCell
-        //   cell = tableView.dequeueReusableCellWithIdentifier("PRODUCT_CELL") as! ProductCell
         
-        let product = productList[indexPath.row]
-        cell.productName.text = product.name
-        cell.productPrice.text = product.price
-        cell.productImage.image = UIImage(named: product.image)
+        if indexPath.section == 0 {
         
+            let cell : ProductCell = tableView.dequeueReusableCellWithIdentifier("PRODUCT_CELL", forIndexPath: indexPath) as! ProductCell
+            
+            let product = productList[indexPath.row]
+            cell.productName.text = product.name
+            cell.productPrice.text = product.price
+            cell.productImage.image = UIImage(named: product.image)
         
-        cell.productCode = product.code
+            cell.productCode = product.code
         
-        cell.delegate = self
+            cell.delegate = self
         
-        return cell
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier("CART_CELL")!
+            
+            let itemName = cartList[indexPath.row]
+            cell.textLabel?.text = itemName
+            
+            return cell
+
+        }
     }
 
 
@@ -46,7 +77,7 @@ class ViewController: UIViewController,
         
         productList = [
             Product(code: "001", name: "baseball", price: "100", image: "baseball"),
-            Product(code: "001", name: "baseball", price: "100", image: "baseball"),
+            Product(code: "001", name: "basketball", price: "100", image: "basketball"),
             Product(code: "002", name: "basketball", price: "200", image: "basketball"),
             Product(code: "003", name: "football", price: "300", image: "football"),
             Product(code: "004", name: "golf", price: "400", image: "golf"),
