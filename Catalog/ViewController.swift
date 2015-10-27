@@ -9,47 +9,42 @@
 import UIKit
 
 class ViewController: UIViewController,
-    UITableViewDataSource, UITableViewDelegate,
-    ProductCellDelegate {
+    UITableViewDataSource, UITableViewDelegate, ProductCellDelegate {
+    
     
     @IBOutlet weak var tableView: UITableView!
-    var section = 2
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return "Catalog"
-        } else {
-            return "Cart"
-        }
-    }
+    let productManager = ProductManager.sharedManager
+    let cartManager = CartManager.sharedManager
     
     func addCart(productCode: String) {
-        cartList.insert(productCode, atIndex: 0)
-        tableView.reloadData()
+        cartManager.addCart(productCode)
     }
     
-    var productList : [Product]!
-    var cartList = [String]()
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let cell = sender as! UITableViewCell
+        let indexPath = tableView.indexPathForCell(cell)!
+        let selected  = productManager.productAt(indexPath.row)
+        print("사용자가 선택한 데이터 : \(selected.name)")
+        
+        let detailVC = segue.destinationViewController as! DetailViewController
+        detailVC.urlStr = selected.name
+    }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return section
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "Catalog"
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return productList.count
-        } else  {
-            return cartList.count
-        }
+        return productManager.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        if indexPath.section == 0 {
-        
+            self.tableView.rowHeight = 60.0
+            
             let cell : ProductCell = tableView.dequeueReusableCellWithIdentifier("PRODUCT_CELL", forIndexPath: indexPath) as! ProductCell
             
-            let product = productList[indexPath.row]
+            let product = productManager.productAt(indexPath.row)
             cell.productName.text = product.name
             cell.productPrice.text = product.price
             cell.productImage.image = UIImage(named: product.image)
@@ -59,35 +54,12 @@ class ViewController: UIViewController,
             cell.delegate = self
         
             return cell
-        } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("CART_CELL")!
-            
-            let itemName = cartList[indexPath.row]
-            cell.textLabel?.text = itemName
-            
-            return cell
-
-        }
     }
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
-        productList = [
-            Product(code: "001", name: "baseball", price: "100", image: "baseball"),
-            Product(code: "001", name: "basketball", price: "100", image: "basketball"),
-            Product(code: "002", name: "basketball", price: "200", image: "basketball"),
-            Product(code: "003", name: "football", price: "300", image: "football"),
-            Product(code: "004", name: "golf", price: "400", image: "golf"),
-            Product(code: "005", name: "rugby", price: "500", image: "rugby"),
-            Product(code: "006", name: "tennis", price: "600", image: "tennis"),
-            Product(code: "007", name: "volleyball", price: "700", image: "volleyball"),
-            Product(code: "008", name: "tableTennis", price: "800", image: "tableTennis"),
-            Product(code: "009", name: "iceHocky", price: "800", image: "iceHocky"),
-            Product(code: "010", name: "billiard", price: "800", image: "billiard"),
-        ]
+        self.automaticallyAdjustsScrollViewInsets = false
     }
 
     override func didReceiveMemoryWarning() {
