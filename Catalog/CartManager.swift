@@ -9,29 +9,42 @@
 import Foundation
 import RealmSwift
 
+let ModelChangeNotification = "ModelChangeNotification"
+
 class CartItem:Object {
     dynamic var name = ""
 }
 
 class CartManager {
     static let sharedManager = CartManager()
-    let realm = try! Realm()
+    
+    var items : Results<CartItem>!
     
     var count : Int {
-        return realm.objects(CartItem).count
-        
+        if items==nil {
+            return 0
+        }
+        else {
+            return items.count
+        }
+    }
+    
+    func retrieveCart() {
+        let realm = try! Realm()
+        items = realm.objects(CartItem)
     }
     
     func cartAt(index : Int) -> String {
-        return realm.objects(CartItem)[index].name
+        return items[index].name
     }
     
     func addCart(cart : String) {
+        let realm = try! Realm()
         let cartItem = CartItem()
         cartItem.name = cart
         
         try! realm.write {
-            self.realm.add(cartItem)
+            realm.add(cartItem)
         }
     }
 }

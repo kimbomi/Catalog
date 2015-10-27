@@ -33,6 +33,7 @@ class CartViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        cartManager.retrieveCart()
     }
     
     override func didReceiveMemoryWarning() {
