@@ -9,8 +9,6 @@
 import Foundation
 import RealmSwift
 
-let ModelChangeNotification = "ModelChangeNotification"
-
 class CartItem:Object {
     dynamic var name = ""
 }
@@ -45,6 +43,17 @@ class CartManager {
         
         try! realm.write {
             realm.add(cartItem)
+        }
+        
+        let request = RequestController.sharedManger
+        request.sendRequestPOST(cart)
+    }
+    
+    func removeCart(){
+        let realm = try! Realm()
+        
+        try! realm.write {
+            realm.deleteAll()
         }
     }
 }

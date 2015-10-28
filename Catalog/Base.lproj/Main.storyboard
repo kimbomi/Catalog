@@ -247,34 +247,56 @@
                                     <outlet property="delegate" destination="Loo-t7-CF4" id="hLc-hq-Qsf"/>
                                 </connections>
                             </tableView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="InW-GM-ICc">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="wzw-p7-LY5"/>
+                                    <barButtonItem title="Delete All" id="4cC-t1-0K9">
+                                        <connections>
+                                            <action selector="deleteAll:" destination="Loo-t7-CF4" id="OEC-8h-dOd"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="VtV-cu-OoR" firstAttribute="top" secondItem="1Le-jx-dA0" secondAttribute="bottom" id="9Oc-AL-LOc"/>
+                            <constraint firstItem="VtV-cu-OoR" firstAttribute="top" secondItem="InW-GM-ICc" secondAttribute="bottom" id="14y-Ag-obS"/>
+                            <constraint firstAttribute="trailing" secondItem="InW-GM-ICc" secondAttribute="trailing" id="894-Ef-Y4h"/>
                             <constraint firstAttribute="trailing" secondItem="VtV-cu-OoR" secondAttribute="trailing" id="Eiv-Pc-s2j"/>
                             <constraint firstItem="uIu-HD-0V4" firstAttribute="top" secondItem="VtV-cu-OoR" secondAttribute="bottom" id="HC3-m2-W8Z"/>
                             <constraint firstItem="VtV-cu-OoR" firstAttribute="leading" secondItem="IBQ-0F-pI0" secondAttribute="leading" id="Lzs-46-TMM"/>
+                            <constraint firstItem="InW-GM-ICc" firstAttribute="leading" secondItem="IBQ-0F-pI0" secondAttribute="leading" id="VEf-Fp-8qv"/>
+                            <constraint firstItem="InW-GM-ICc" firstAttribute="top" secondItem="1Le-jx-dA0" secondAttribute="bottom" id="o9x-uH-t7e"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="VtV-cu-OoR"/>
+                                <exclude reference="InW-GM-ICc"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="HC3-m2-W8Z"/>
-                                <exclude reference="9Oc-AL-LOc"/>
+                                <exclude reference="894-Ef-Y4h"/>
+                                <exclude reference="VEf-Fp-8qv"/>
+                                <exclude reference="o9x-uH-t7e"/>
+                                <exclude reference="14y-Ag-obS"/>
                                 <exclude reference="Eiv-Pc-s2j"/>
                                 <exclude reference="Lzs-46-TMM"/>
+                                <exclude reference="HC3-m2-W8Z"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
                                 <include reference="VtV-cu-OoR"/>
+                                <include reference="InW-GM-ICc"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="HC3-m2-W8Z"/>
-                                <include reference="9Oc-AL-LOc"/>
+                                <include reference="894-Ef-Y4h"/>
+                                <include reference="VEf-Fp-8qv"/>
+                                <include reference="o9x-uH-t7e"/>
+                                <include reference="14y-Ag-obS"/>
                                 <include reference="Eiv-Pc-s2j"/>
                                 <include reference="Lzs-46-TMM"/>
+                                <include reference="HC3-m2-W8Z"/>
                             </mask>
                         </variation>
                     </view>

@@ -25,7 +25,7 @@ class ViewController: UIViewController,
         let cell = sender as! UITableViewCell
         let indexPath = tableView.indexPathForCell(cell)!
         let selected  = productManager.productAt(indexPath.row)
-        print("사용자가 선택한 데이터 : \(selected.name)")
+        print("selected data : \(selected.name)")
         
         let detailVC = segue.destinationViewController as! DetailViewController
         detailVC.urlStr = selected.name

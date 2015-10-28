@@ -27,6 +27,11 @@ class CartViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return cellCart
     }
     
+    @IBAction func deleteAll(sender: AnyObject) {
+        cartManager.removeCart()
+        tableView.reloadData()
+    }
+    
     override func viewWillAppear(animated: Bool) {
         tableView.reloadData()
     }
