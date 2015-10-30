@@ -8,7 +8,6 @@
 import UIKit
 
 class CartViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    let cartManager = CartManager.sharedManager
     @IBOutlet weak var tableView: UITableView!
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -16,29 +15,28 @@ class CartViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cartManager.count
+        return RequestController.sharedManger.myCart.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("CART_CELL")!
+        cell.textLabel?.text = RequestController.sharedManger.myCart[indexPath.row].name
         
-        let cellCart = tableView.dequeueReusableCellWithIdentifier("CART_CELL")!
-        cellCart.textLabel?.text = cartManager.cartAt(indexPath.row)
-        
-        return cellCart
+        return cell
     }
     
-    @IBAction func deleteAll(sender: AnyObject) {
-        cartManager.removeCart()
+    func handleChange() {
         tableView.reloadData()
     }
     
     override func viewWillAppear(animated: Bool) {
-        tableView.reloadData()
+        super.viewWillAppear(animated)
+        RequestController.sharedManger.sendRequestGET()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        cartManager.retrieveCart()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleChange", name: "CartChanged", object: nil)
     }
     
     override func didReceiveMemoryWarning() {
